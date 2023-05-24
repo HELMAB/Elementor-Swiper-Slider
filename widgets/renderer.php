@@ -34,7 +34,7 @@ class SliderControls extends \Elementor\Widget_Base
 	// Category the widget belongs to
 	public function get_categories()
 	{
-		return array('basic');
+		return array('basic', 'single');
 	}
 
 	// Enqueue styles

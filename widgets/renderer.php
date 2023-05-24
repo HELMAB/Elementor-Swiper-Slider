@@ -127,9 +127,9 @@ class SliderControls extends \Elementor\Widget_Base
 
 		if (!(is_array($images) && count($images) > 0)) {
 			$images = [
-				get_file('slideshow_image_1'),
-				get_file('slideshow_image_2'),
-				get_file('slideshow_image_3'),
+				get_field('slideshow_image_1'),
+				get_field('slideshow_image_2'),
+				get_field('slideshow_image_3'),
 			];
 		}
 

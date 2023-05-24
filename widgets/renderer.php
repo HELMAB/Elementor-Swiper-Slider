@@ -125,6 +125,14 @@ class SliderControls extends \Elementor\Widget_Base
 
 		$images = get_field('gallery') ?? $settings['gallery'];
 
+		if (!(is_array($images) && count($images) > 0)) {
+			$images = [
+				get_file('slideshow_image_1'),
+				get_file('slideshow_image_2'),
+				get_file('slideshow_image_3'),
+			];
+		}
+
 ?>
 
 		<div class="swiper-body">

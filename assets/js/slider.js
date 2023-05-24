@@ -1,24 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-	let swiperThubmnails = new Swiper(".thumbnail-swiper", {
-		spaceBetween: 10,
-		slidesPerView: 4,
-		freeMode: true,
-		watchSlidesProgress: true,
-	});
-
-	let swiperFeatured = new Swiper(".featured-swiper", {
+	new Swiper(".featured-swiper", {
+		slidesPerView: "auto",
+		loop: true,
+      	spaceBetween: 20,
 		autoplay: {
 			delay: 5000,
 		},
-		spaceBetween: 10,
 		navigation: {
 			nextEl: ".swiper-button-next",
 			prevEl: ".swiper-button-prev",
-		},
-		thumbs: {
-			swiper: swiperThubmnails,
-		},
+		}
 	});
-
 });

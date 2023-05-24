@@ -3,46 +3,55 @@
 namespace ElementorSwiperSlider\Widgets;
 
 // Security Note: Blocks direct access to the plugin PHP files.
-defined( 'ABSPATH' ) || die();
+defined('ABSPATH') || die();
 
-class SliderControls extends \Elementor\Widget_Base {
+class SliderControls extends \Elementor\Widget_Base
+{
 
-	public function __construct( $data = array(), $args = null ) {
-		parent::__construct( $data, $args );
+	public function __construct($data = array(), $args = null)
+	{
+		parent::__construct($data, $args);
 	}
 
 	// Widget name
-	public function get_name() {
+	public function get_name()
+	{
 		return 'Swiper Slider';
 	}
 
 	// Widget title
-	public function get_title() {
-		return __( 'Swiper Slider', 'elementor-swiper-slider' );
+	public function get_title()
+	{
+		return __('67zoo slider', 'elementor-swiper-slider');
 	}
 
 	// Widget icon
-	public function get_icon() {
+	public function get_icon()
+	{
 		return 'eicon-thumbnails-down';
 	}
 
 	// Category the widget belongs to
-	public function get_categories() {
-		return array( 'custom widget' );
+	public function get_categories()
+	{
+		return array('basic');
 	}
-	
+
 	// Enqueue styles
-	public function get_style_depends() {
-		return array( 'slider-upgrade-style' );
+	public function get_style_depends()
+	{
+		return array('slider-upgrade-style');
 	}
 
 	// Enqueue scripts
-	public function get_script_depends() {
-		return array( 'slider-upgrade-script', 'slider-swiper-script' );
+	public function get_script_depends()
+	{
+		return array('slider-upgrade-script', 'slider-swiper-script');
 	}
 
 	// Widget Controls
-	protected function register_controls() {
+	protected function register_controls()
+	{
 
 		/**
 		 * Image Section Start
@@ -50,7 +59,7 @@ class SliderControls extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'image_section',
 			[
-				'label' => esc_html__( 'Images', 'elementor-swiper-slider' ),
+				'label' => esc_html__('Images', 'elementor-swiper-slider'),
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -58,10 +67,10 @@ class SliderControls extends \Elementor\Widget_Base {
 		$this->add_control(
 			'gallery',
 			[
-				'label' => esc_html__( 'Add Images', 'elementor-swiper-slider' ),
+				'label' => esc_html__('Add Images', 'elementor-swiper-slider'),
 				'type' => \Elementor\Controls_Manager::GALLERY,
 				'default' => [],
-				'description' => esc_html__( 'Adding more than 1 image, will active the slider functionality', 'elementor-swiper-slider' ),
+				'description' => esc_html__('Adding more than 1 image, will active the slider functionality', 'elementor-swiper-slider'),
 				'dynamic' => [
 					'active' => true,
 				],
@@ -89,7 +98,7 @@ class SliderControls extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_section',
 			[
-				'label' => esc_html__( 'Style', 'elementor-swiper-slider' ),
+				'label' => esc_html__('Style', 'elementor-swiper-slider'),
 				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -98,8 +107,8 @@ class SliderControls extends \Elementor\Widget_Base {
 			'item_border_radius',
 			[
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
-				'label'      => esc_html__( 'Border Radius', 'elementor-swiper-slider' ),
-				'size_units' => [ 'px', 'em', '%' ],
+				'label'      => esc_html__('Border Radius', 'elementor-swiper-slider'),
+				'size_units' => ['px', 'em', '%'],
 				'selectors'  => [
 					'{{WRAPPER}} .swiper-slide img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
@@ -107,56 +116,41 @@ class SliderControls extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
-		/**
-		 * Style Section End
-		 */
-
 	}
 
 	// Frontend output
-	protected function render() {
+	protected function render()
+	{
 		$settings = $this->get_settings_for_display();
 
-		echo '<div class="swiper-body">';
-		echo '<div class="swiper featured-swiper">';
-		echo '<div class="swiper-wrapper">';
-		foreach ( $settings['gallery'] as $image ) {
-			echo '<div class="swiper-slide">';
-			echo wp_get_attachment_image($image['id'], $settings['thumbnail_size']);
-			echo '</div>';
-		}
-		echo '</div>';
-		echo '<div class="swiper-button-next swiper-button-white"></div>';
-		echo '<div class="swiper-button-prev swiper-button-white"></div>';
-		echo '</div>';
+		$images = get_field('gallery') ?? $settings['gallery'];
 
-		echo '<div class="swiper thumbnail-swiper">';
-		echo '<div class="swiper-wrapper">';
-		foreach ( $settings['gallery'] as $image ) {
-			echo '<div class="swiper-slide">';
-			echo wp_get_attachment_image($image['id'], $settings['thumbnail_size']);
-			echo '</div>';
-		}
-		echo '</div>';
-		echo '</div>';
-		echo '</div>';
+?>
+
+		<div class="swiper-body">
+			<div class="swiper featured-swiper">
+				<div class="swiper-wrapper">
+					<?php foreach ($images as $image) : ?>
+						<div class="swiper-slide">
+							<?php echo wp_get_attachment_image($image['id'], $settings['thumbnail_size']); ?>
+						</div>
+					<?php endforeach; ?>
+				</div>
+				<div class="swiper-button-next swiper-button-white"></div>
+				<div class="swiper-button-prev swiper-button-white"></div>
+			</div>
+		</div>
+
+	<?php
 	}
 
-	protected function content_template() {
-		?>
-		<#
-		var image = {
-			id: settings.image.id,
-			url: settings.image.url,
-			size: settings.thumbnail_size,
-			dimension: settings.thumbnail_custom_dimension,
-			model: view.getEditModel()
-		};
-		var image_url = elementor.imagesManager.getImageUrl( image );
-		#>
+	protected function content_template()
+	{
+	?>
+		<# var image={ id: settings.image.id, url: settings.image.url, size: settings.thumbnail_size, dimension: settings.thumbnail_custom_dimension, model: view.getEditModel() }; var image_url=elementor.imagesManager.getImageUrl( image ); #>
 
-		<img src="{{{ image_url }}}" />
-		
-		<?php
+			<img src="{{{ image_url }}}" />
+
+	<?php
 	}
 }

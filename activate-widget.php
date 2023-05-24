@@ -1,11 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	// Exit if accessed directly.
 	exit;
 }
 
-final class ELEMENTOR_SWIPER_SLIDER {
+final class ELEMENTOR_SWIPER_SLIDER
+{
 
 	/**
 	 * Plugin Version
@@ -37,12 +38,13 @@ final class ELEMENTOR_SWIPER_SLIDER {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		// Load the translation.
-		add_action( 'init', array( $this, 'i18n' ) );
+		add_action('init', array($this, 'i18n'));
 
 		// Initialize the plugin.
-		add_action( 'plugins_loaded', array( $this, 'init' ) );
+		add_action('plugins_loaded', array($this, 'init'));
 	}
 
 	/**
@@ -54,8 +56,9 @@ final class ELEMENTOR_SWIPER_SLIDER {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function i18n() {
-		load_plugin_textdomain( 'elementor-swiper-slider' );
+	public function i18n()
+	{
+		load_plugin_textdomain('elementor-swiper-slider');
 	}
 
 	/**
@@ -70,23 +73,24 @@ final class ELEMENTOR_SWIPER_SLIDER {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function init() {
+	public function init()
+	{
 
 		// Check if Elementor installed and activated.
-		if ( ! did_action( 'elementor/loaded' ) ) {
-			add_action( 'admin_notices', array( $this, 'admin_notice_missing_main_plugin' ) );
+		if (!did_action('elementor/loaded')) {
+			add_action('admin_notices', array($this, 'admin_notice_missing_main_plugin'));
 			return;
 		}
 
 		// Check for required Elementor version.
-		if ( ! version_compare( ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=' ) ) {
-			add_action( 'admin_notices', array( $this, 'admin_notice_minimum_elementor_version' ) );
+		if (!version_compare(ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=')) {
+			add_action('admin_notices', array($this, 'admin_notice_minimum_elementor_version'));
 			return;
 		}
 
 		// Check for required PHP version.
-		if ( version_compare( PHP_VERSION, self::MINIMUM_PHP_VERSION, '<' ) ) {
-			add_action( 'admin_notices', array( $this, 'admin_notice_minimum_php_version' ) );
+		if (version_compare(PHP_VERSION, self::MINIMUM_PHP_VERSION, '<')) {
+			add_action('admin_notices', array($this, 'admin_notice_minimum_php_version'));
 			return;
 		}
 
@@ -102,8 +106,9 @@ final class ELEMENTOR_SWIPER_SLIDER {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function admin_notice_missing_main_plugin() {
-		deactivate_plugins( plugin_basename( ELEMENTOR_SWIPER_SLIDER ) );
+	public function admin_notice_missing_main_plugin()
+	{
+		deactivate_plugins(plugin_basename(ELEMENTOR_SWIPER_SLIDER));
 
 		return sprintf(
 			wp_kses(
@@ -129,8 +134,9 @@ final class ELEMENTOR_SWIPER_SLIDER {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function admin_notice_minimum_elementor_version() {
-		deactivate_plugins( plugin_basename( ELEMENTOR_SWIPER_SLIDER ) );
+	public function admin_notice_minimum_elementor_version()
+	{
+		deactivate_plugins(plugin_basename(ELEMENTOR_SWIPER_SLIDER));
 
 		return sprintf(
 			wp_kses(
@@ -157,8 +163,9 @@ final class ELEMENTOR_SWIPER_SLIDER {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function admin_notice_minimum_php_version() {
-		deactivate_plugins( plugin_basename( ELEMENTOR_SWIPER_SLIDER ) );
+	public function admin_notice_minimum_php_version()
+	{
+		deactivate_plugins(plugin_basename(ELEMENTOR_SWIPER_SLIDER));
 
 		return sprintf(
 			wp_kses(
